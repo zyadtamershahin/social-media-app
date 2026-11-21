@@ -5,7 +5,9 @@ import { Applecation_error, not_Found_error } from "./common/exception/error.exc
 import { success_response } from "./common/exception/success.response"
 import cors from "cors"
 import { rateLimit } from 'express-rate-limit'
-
+import { env } from "./config/env.service";
+import { database_connection } from "./database/connection";
+import { readis_service_instance } from "./common/service/redis.service";
 
 
 const app = express();
@@ -18,6 +20,10 @@ const limit =rateLimit({
 
 
 app.use(express.json())
+database_connection()
+readis_service_instance.connect()
+
+
 app.use(cors({
     origin:"*"
 }))
@@ -33,6 +39,6 @@ app.get("/",(req: express.Request, res: express.Response, next: express.NextFunc
 
 app.use(gloabal_handling_error)
 
-app.listen(3000, ()=>{
-    console.log("Server is running on port 3000")
+app.listen(env.port, ()=>{
+    console.log(`Server is running on port ${env.port}`)
 })
