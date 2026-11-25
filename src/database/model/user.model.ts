@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { IUser } from "../../common/interface/user.interface";
+import { role_enum } from "../../common/enums/user.enum";
 
 
 
@@ -30,6 +31,12 @@ export const userSchema = new mongoose.Schema({
     age: {
         type: Number,
     
+    },
+    role:{
+        type:Number,
+        enum:role_enum,
+        default:role_enum.user
+
     }
 })
 
